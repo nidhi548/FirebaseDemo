@@ -1,6 +1,7 @@
 package com.example.firebasedemo
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.firebasedemo.ui.theme.FirebaseDemoTheme
 import com.google.firebase.auth.FirebaseAuth
@@ -47,7 +49,7 @@ class RegisterActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RegisterScreen(firebaseAuth)
+                    RegisterScreen()
                 }
             }
         }
@@ -59,6 +61,8 @@ class RegisterActivity : ComponentActivity() {
                 if (task.isSuccessful) {
                     // Registration success
                     Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finishActivity(context)
                 } else {
                     // Registration failed
                     val exception = task.exception
@@ -69,7 +73,7 @@ class RegisterActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun RegisterScreen(firebaseAuth: FirebaseAuth) {
+    fun RegisterScreen() {
         var textState by remember { mutableStateOf(TextFieldValue("")) }
         var textState1 by remember { mutableStateOf(TextFieldValue("")) }
         val context = LocalContext.current
@@ -131,12 +135,12 @@ class RegisterActivity : ComponentActivity() {
             }
         )
     }
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview2() {
+        FirebaseDemoTheme {
+            RegisterScreen()
+        }
+    }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview2() {
-//    FirebaseDemoTheme {
-//        Greeting2()
-//    }
-//}
